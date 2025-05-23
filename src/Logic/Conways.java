@@ -3,8 +3,10 @@ package Logic;
 import java.util.ArrayList;
 
 public class Conways {
+	//ts needs to be fixed up
 	private final ArrayList<int2d> keystones;
 	private final ArrayList<Integer> checksums;
+	
 	private final int[][] grid;
 	public final int rows;
 	public final int cols;

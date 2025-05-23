@@ -55,15 +55,23 @@ public class Designs {
 	}
 	
 	public static Design getDesign(String id){
+		id = id.toUpperCase();
 		for (Design design : designs){
 			if (design.getId().equals(id)){
+				return design;
+			}
+		}
+		id = id.toLowerCase();
+		for (Design design : designs){
+			if (design.getName().toLowerCase().equals(id)){
 				return design;
 			}
 		}
 		return null;
 	}
 
-	public static void addShades(Conways game, int x, int y, int width, int height, int type){
+	@Deprecated
+	public static void stripeArea(Conways game, int x, int y, int width, int height, int type){
 		//y 4n+1 - 41 height
 		//x 3n+1 - 40 width
 		height = 4*((height-1)/4)+1;
@@ -82,15 +90,16 @@ public class Designs {
 			game.setItem(height-1+y, x1+x, type);
 		}
 	}
-	public static void addFull  (Conways game, int x, int y, int width, int height, int type){
+	@Deprecated
+	public static void fillArea (Conways game, int x, int y, int width, int height, int type){
 		for (int sx = x; sx<x+width; sx++){
 			for (int sy = y; sy<y+height; sy++){
 				game.setItem(sy, sx, type);
 			}
 		}
 	}
-	
-	public static void addDesign(Conways game, int x, int y, boolean flipx, boolean flipy, boolean flipXY, String[] design, int type){
+	@Deprecated
+	public static void fillDesign(Conways game, int x, int y, boolean flipx, boolean flipy, boolean flipXY, String[] design, int type){
 		for (int row = 0; row < design.length; row++){
 			for (int col = 0; col < design[row].length(); col++){
 				int rowAdj = row;
