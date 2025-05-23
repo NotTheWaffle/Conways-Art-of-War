@@ -7,40 +7,61 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Designs {
-	private static ArrayList<Design> designs;
+	private static ArrayList<Design> designs = new ArrayList<>();
 
 	public static void loadDesigns(File file){
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));
+			System.out.println("Reading file "+file.getName());
+			readLoop:
+			while (true){
 
-			
-			String name = reader.readLine();
-			String[] metaData = reader.readLine().split(" ");
-			String id = metaData[0];
-			int rows = Integer.parseInt(metaData[1]);
-			int cols = Integer.parseInt(metaData[2]);
-			Design design = new Design(rows);
-			for (int row = 0; row < rows; row++){
-				//i could do some .tochararray and some system.arraycopy to make this faster, but idgaf
-				String line = reader.readLine();
-				char[] curRow = new char[cols];
-				for (int col = 0; col < cols; col++){
-					if (col >= line.length()){
-						curRow[col] = ' ';
-					} else {
-						curRow[col] = line.charAt(col);
+				String name = reader.readLine();
+				if (name == null){
+					break;
+				}
+
+				String[] metaData = reader.readLine().split(" ");
+					String id = metaData[0];
+					int rows = Integer.parseInt(metaData[1]);
+					int cols = Integer.parseInt(metaData[2]);
+				
+				char[][] design = new char[rows][cols];
+				for (int row = 0; row < rows; row++){
+					//i could do some .tochararray and some system.arraycopy to make this faster, but idgaf
+					String line = reader.readLine();
+					if (line.length() == 0){
+						System.out.println("  Malform Design: ("+id+") "+name);
+						continue readLoop;
+					}
+					for (int col = 0; col < cols; col++){
+						if (col >= line.length()){
+							design[row][col] = ' ';
+						} else {
+							design[row][col] = line.charAt(col);
+						}
 					}
 				}
-				design.updateRow(row, curRow);
+				designs.add(new Design(design, name, id));
+				System.out.println("  Design Added  : ("+id+") "+name);
+				reader.readLine();
 			}
-			designs.add(design);
-
 
 
 			reader.close();
-		} catch (IOException e){}
+		} catch (IOException e){
+			System.out.println("File "+file.getName()+" not found");
+		}
 	}
 	
+	public static Design getDesign(String id){
+		for (Design design : designs){
+			if (design.getId().equals(id)){
+				return design;
+			}
+		}
+		return null;
+	}
 
 	public static void addShades(Conways game, int x, int y, int width, int height, int type){
 		//y 4n+1 - 41 height

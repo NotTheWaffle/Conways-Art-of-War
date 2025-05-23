@@ -1,20 +1,60 @@
 package Logic;
 
 public class Design {
-	private char[][] design;
-	private String name;
-	private String id;
-	
-	public Design(int rows){
-		design = new char[rows][];
-	}
-	public Design(char[][] design){
+	private final char[][] design;
+	private final String name;
+	private final String id;
+
+	public Design(char[][] design, String name, String id){
 		this.design = design;
+		this.name = name;
+		this.id = id;
 	}
-	public char getItem(int row, int col){
-		return design[row][col];
+	
+	public char[][] get(){
+		return design;
 	}
-	public void updateRow(int row, char[] design){
-		this.design[row] = design;
+	public String getId(){
+		return id;
+	}
+	public String getName(){
+		return name;
+	}
+
+	@Override
+	public String toString(){
+		String designString = "";
+		for (char[] row : design){
+			for (char item : row){
+				designString += item;
+			}
+			designString += "\n";
+		}
+		return (name+" ("+id+") "+design.length+"x"+design[0].length+"\n"+designString);
+	}
+	@Override
+	public boolean equals(Object o){
+		if (! (o instanceof Design)){
+			return false;
+		}
+		Design d = (Design) o;
+		if (!d.getName().equals(this.name) || !d.getId().equals(this.id)){
+			return false;
+		}
+		//same name, id
+		char[][] altDesign = d.get();
+		if (altDesign.length != design.length || altDesign[0].length != design[0].length){
+			return false;
+		}
+		//same dimensions
+		for (int i = 0; i < design.length; i++){
+			for (int j = 0; j < design[0].length; j++){
+				if (design[i][j] != altDesign[i][j]){
+					return false;
+				}
+			}
+		}
+		//identical
+		return true;
 	}
 }
