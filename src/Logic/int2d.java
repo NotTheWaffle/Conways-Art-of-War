@@ -16,4 +16,4 @@ public class int2d {
 		}
 		return output;
 	}
-}
+}	
