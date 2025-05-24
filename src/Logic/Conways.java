@@ -34,10 +34,10 @@ public class Conways {
 	 * Within Bounds.
 	*/
 	public void updateItem(int row, int col){
-		if (col > cols/2){
-			updateItem(row, col, 2-getItem(row, col));
-		} else { 
+		if (col < cols/2){
 			updateItem(row, col, 1-getItem(row, col));
+		} else { 
+			updateItem(row, col, 2-getItem(row, col));
 		}
 	}
 	public void updateItem(int row, int col, int val){

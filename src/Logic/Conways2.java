@@ -27,11 +27,12 @@ public class Conways2{
 		return grid.getItem(row, col);
 	}
 	public void setItem(int row, int col, int val){
-		grid.setItem(row, col, (byte) val);
+		grid.setItem(Math.floorMod(row, rows), Math.floorMod(col, cols), (byte) val);
 	}
 	public void setItem(int row, int col, byte val){
-		grid.setItem(row, col, val);
+		grid.setItem(Math.floorMod(row, rows), Math.floorMod(col, cols), val);
 	}
+
 	public void updateItem(int row, int col){
 		if (row < 0 || row >= rows || col < 0 || col >= cols || currentTick > 0){
 			return;
@@ -63,11 +64,6 @@ public class Conways2{
 		return this.cols;
 	}
 
-	public void tick(int amount){
-		for (int i = 0; i < amount; i++){
-			tick();
-		}
-	}
 	public void tick(){
 		if (currentTick == 0){
 			updateHashcodes();
@@ -102,7 +98,15 @@ public class Conways2{
 		updateKeystones();
 		currentTick++;
 	}
+	public void tick(int amount){
+		for (int i = 0; i < amount; i++){
+			tick();
+		}
+	}
 	public void loadTick(int tick){
+		if (tick < 0){
+			tick = 0;
+		}
 		if (tick > currentTick){
 			while (tick > currentTick){
 				tick();
@@ -173,7 +177,6 @@ public class Conways2{
 	public void reset(){
 		loadTick(0);
 	}
-
 	public void clear(){
 		this.keystones.clear();
 		this.hashcodes.clear();

@@ -1,0 +1,50 @@
+Light Weight Space Ship
+LWSS 4 5
+ #  #
+#    
+#   #
+#### 
+
+Medium Weight Space Ship
+MWSS 5 6
+   #  
+ #   #
+#     
+#    #
+##### 
+
+Heavy Weight Space Ship
+HWSS 5 7
+   ##  
+ #    #
+#      
+#     #
+###### 
+
+Glider
+GLDR 3 3
+ # 
+#  
+###
+
+Copperhead
+CPHD 8 12
+   ## #     
+#      #    
+#  #   ##   
+ ##     # ##
+ ##     # ##
+#  #   ##   
+#      #    
+   ## #     
+
+Loafer
+LOFR 8 9
+ ##  # ##
+#  #  ## 
+ # #     
+  #      
+      ###
+     #  #
+      #  
+       ##
