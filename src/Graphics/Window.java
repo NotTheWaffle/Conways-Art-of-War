@@ -1,6 +1,6 @@
 package Graphics;
 
-import Logic.Conways;
+import Logic.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
@@ -18,7 +18,7 @@ public class Window {
 
 	private final JButton[] buttons;
 
-	public Window(Conways game, int scale, int border, int barWidth){
+	public Window(Conways game, Overlay overlay, int scale, int border, int barWidth){
 		int gameWidth  = game.getCols() * scale;
 		int gameHeight = game.getRows() * scale;
 
@@ -34,7 +34,7 @@ public class Window {
 		this.frame.setResizable(false);
 		
 
-		this.gamePanel = new GamePanel(game, scale, this);
+		this.gamePanel = new GamePanel(game, overlay, scale, this);
 		this.gamePanel.setBounds(border, border, gameWidth, gameHeight);
 		this.gamePanel.setBackground(Color.CYAN);
 		this.frame.add(gamePanel);
@@ -80,6 +80,7 @@ public class Window {
 				this.clear = true;
 			}
 		);
+		gamePanel.requestFocusInWindow();
 	}
 
 	public void render(){

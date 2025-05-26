@@ -7,16 +7,18 @@ public class Main{
 		String root = "C:/Users/andre/Documents/VS Code Programs/Random/Conways Art of War/src/Designs/";
 		String[] designs = {"gliders", "generators", "oscillators", "still"};
 		for (String design : designs){
-			Designs.loadDesigns(new File(root+design+".dat"));
+			Designs.loadFile(new File(root+design+".dat"));
 		}
 
 		int size = 32;
 		Conways game = new Conways(size, size);
+		Overlay overlay = new Overlay(size, size);
+		overlay.setItem(0, 0, 2);
 		int scale = 1024/size;
-		Window window = new Window(game, scale, 4, 70);
+		Window window = new Window(game, overlay, scale, 4, 70);
 		window.render();
 		boolean playing = false;
-		System.out.println(game);
+		
 		while (true){
 			if (window.play){
 				playing = !playing;
@@ -50,7 +52,7 @@ public class Main{
 				game.tick();
 				window.render();
 			}
-			sleep(100);
+			sleep(16);
 		}
 
 	}

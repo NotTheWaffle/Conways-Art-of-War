@@ -1,6 +1,6 @@
 package Graphics;
 
-import Logic.Conways;
+import Logic.*;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.*;
@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel {
 	private final BufferedImage image;
 	private final Conways game;
+	private final Overlay overlay;
 	private final int scale;
 	private final int width;
 	private final int height;
@@ -18,12 +19,15 @@ public class GamePanel extends JPanel {
 	private int prevY;
 	private byte brush;
 
-	public GamePanel(Conways game, int scale, Window window){
+	public GamePanel(Conways game, Overlay overlay, int scale, Window window){
 		this.game  = game;
+		this.overlay = overlay;
 		this.scale = scale;
 		this.width  = game.getCols() * scale;
 		this.height = game.getRows() * scale;
 		this.image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+
+		this.setFocusable(true);
 
 		this.addMouseListener(new MouseAdapter() {
 			@Override
@@ -35,7 +39,7 @@ public class GamePanel extends JPanel {
 				} else {
 					brush = (byte) 0;
 				}
-				//brush = (byte) (1 - game.getItem(y, x));
+				
 				game.updateItem(y, x, brush);
 				window.render();
 
@@ -77,6 +81,32 @@ public class GamePanel extends JPanel {
 			@Override
 			public void mouseMoved(MouseEvent e){}
 		});
+		this.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent e){
+				System.out.print(e.getKeyCode()+" ");
+				// 81 87 69
+				// 65 83 68
+				//  q  w  e
+				// a  s  d
+				// w & s flip v
+				// a & d flip h
+				// q & e rotate (c)cw
+				//37 left
+				//39 right
+				//38 up
+				//40 down
+			}
+			@Override
+			public void keyReleased(KeyEvent e){
+				//System.out.print(e.getKeyChar());
+			}
+			@Override
+			public void keyTyped(KeyEvent e){
+				//System.out.print(e.getKeyChar());
+			}
+		});
+		
 	}
 
 	@Override
@@ -92,7 +122,12 @@ public class GamePanel extends JPanel {
 	public void updateImage(){
 		for (int row = 0; row < game.getRows(); row++){
 			for (int col = 0; col < game.getCols(); col++){
-				int color = switch (game.getItem(row, col)){
+				int color;
+				int val = overlay.getItem(row, col);
+				if (val == 0){
+					val = game.getItem(row, col);
+				}
+				color = switch (val){
 					case 0 -> {
 						if (col == 0 || col == game.getCols()/2 || col == game.getCols()/2-1 || col == game.getCols()-1){
 							if ((row + col) % 2 == 1){
@@ -111,6 +146,7 @@ public class GamePanel extends JPanel {
 					case 2 -> 	{yield 0xff_ff_00_00;}	//red
 					default -> 	{yield 0xff_00_ff_00;}	//green
 				};
+				
 
 				for (int sx = col*scale; sx < (col+1)*scale; sx++){
 					for (int sy = row*scale; sy < (row+1)*scale; sy++){

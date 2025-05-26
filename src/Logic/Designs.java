@@ -7,48 +7,48 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Designs {
-	private static ArrayList<Design> designs = new ArrayList<>();
+	private final static ArrayList<ArrayList<Design>> designs = new ArrayList<>();
 
-	public static void loadDesigns(File file){
+	public static void loadFile(File file){
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-			System.out.println("Reading file "+file.getName());
-			readLoop:
-			while (true){
-
-				String name = reader.readLine();
-				if (name == null){
-					break;
-				}
-
-				String[] metaData = reader.readLine().split(" ");
+			try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+				ArrayList<Design> localDesigns = new ArrayList<>();
+				System.out.println("Reading file "+file.getName());
+				readLoop:
+				while (true){
+					
+					String name = reader.readLine();
+					if (name == null){
+						break;
+					}
+					
+					String[] metaData = reader.readLine().split(" ");
 					String id = metaData[0];
 					int rows = Integer.parseInt(metaData[1]);
 					int cols = Integer.parseInt(metaData[2]);
-				
-				char[][] design = new char[rows][cols];
-				for (int row = 0; row < rows; row++){
-					//i could do some .tochararray and some system.arraycopy to make this faster, but idgaf
-					String line = reader.readLine();
-					if (line.length() == 0){
-						System.out.println("  Malform Design: ("+id+") "+name);
-						continue readLoop;
-					}
-					for (int col = 0; col < cols; col++){
-						if (col >= line.length()){
-							design[row][col] = ' ';
-						} else {
-							design[row][col] = line.charAt(col);
+					
+					char[][] design = new char[rows][cols];
+					for (int row = 0; row < rows; row++){
+						//i could do some .tochararray and some system.arraycopy to make this faster, but idgaf
+						String line = reader.readLine();
+						if (line.length() == 0){
+							System.out.println("  Malform Design: ("+id+") "+name);
+							continue readLoop;
+						}
+						for (int col = 0; col < cols; col++){
+							if (col >= line.length()){
+								design[row][col] = ' ';
+							} else {
+								design[row][col] = line.charAt(col);
+							}
 						}
 					}
+					localDesigns.add(new Design(design, name, id));
+					System.out.println("  Design Added  : ("+id+") "+name);
+					reader.readLine();
 				}
-				designs.add(new Design(design, name, id));
-				System.out.println("  Design Added  : ("+id+") "+name);
-				reader.readLine();
+				designs.add(localDesigns);
 			}
-
-
-			reader.close();
 		} catch (IOException e){
 			System.out.println("File "+file.getName()+" not found");
 		}
@@ -56,15 +56,11 @@ public class Designs {
 	
 	public static Design getDesign(String id){
 		id = id.toUpperCase();
-		for (Design design : designs){
-			if (design.getId().equals(id)){
-				return design;
-			}
-		}
-		id = id.toLowerCase();
-		for (Design design : designs){
-			if (design.getName().toLowerCase().equals(id)){
-				return design;
+		for (ArrayList<Design> localDesigns : designs){
+			for (Design design : localDesigns){
+				if (design.getId().equals(id)){
+					return design;
+				}
 			}
 		}
 		return null;
@@ -122,4 +118,3 @@ public class Designs {
 		}
 	}
 }
-

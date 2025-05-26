@@ -145,7 +145,6 @@ public class Conways{
 		}
 		hashcodes.set(currentTick, grid.hashCode());
 	}
-
 	private void testHashcodes(){
 		int hash = grid.hashCode();
 		for (int tick = 0; tick < currentTick; tick++){
@@ -195,7 +194,6 @@ public class Conways{
 		return -1; //
 	}
 	
-
 	public void reset(){
 		loadTick(0);
 		drawing = true;
