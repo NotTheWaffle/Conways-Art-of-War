@@ -32,7 +32,6 @@ public class Window {
 		this.frame.setLayout(null);
 		this.frame.setResizable(false);
 		
-		int buttonHeight = gameHeight/3;
 
 		this.gamePanel = new GamePanel(game, scale, this);
 		this.gamePanel.setBounds(border, border, gameWidth, gameHeight);
@@ -44,6 +43,8 @@ public class Window {
 		buttons[0] = new JButton("⟳");
 		buttons[1] = new JButton("⏯");
 		buttons[2] = new JButton("⏵");
+
+		int buttonHeight = gameHeight/buttons.length;
 
 		for (int i = 0; i < buttons.length; i++){
 			buttons[i].setBounds(border*2 + gameWidth, border + buttonHeight * i, barWidth, buttonHeight);
@@ -66,10 +67,6 @@ public class Window {
 				this.next = true;
 			}
 		);
-	}
-
-	public void updateGame(Conways game){
-		gamePanel.updateGame(game);
 	}
 
 	public void render(){

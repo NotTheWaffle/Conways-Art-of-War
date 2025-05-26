@@ -1,4 +1,5 @@
-import Logic.Designs;
+import Graphics.Window;
+import Logic.*;
 import java.io.File;
 
 public class Main{
@@ -8,5 +9,8 @@ public class Main{
 		for (String design : designs){
 			Designs.loadDesigns(new File(root+design+".dat"));
 		}
+		Conways game = new Conways(512, 512);
+		Window window = new Window(game, 2, 5, 50);
+		window.render();
 	}
 }
