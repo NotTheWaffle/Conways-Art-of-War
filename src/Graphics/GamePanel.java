@@ -1,8 +1,6 @@
 package Graphics;
 
 import Logic.Conways;
-
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.*;
@@ -10,7 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
-	private final BufferedImage frame;
+	private final BufferedImage image;
 	private Conways game;
 	private final int scale;
 	private final int width;
@@ -25,14 +23,19 @@ public class GamePanel extends JPanel {
 		this.scale = scale;
 		this.width  = game.getCols() * scale;
 		this.height = game.getRows() * scale;
-		this.frame = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+		this.image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
 
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e){
 				int x = e.getX()/scale;
 				int y = e.getY()/scale;
-				brush = (byte) (1 - game.getItem(y, x));
+				if (game.getItem(y, x) == 0){
+					brush = (byte) 1;
+				} else {
+					brush = (byte) 0;
+				}
+				//brush = (byte) (1 - game.getItem(y, x));
 				game.updateItem(y, x, brush);
 				window.render();
 
@@ -82,25 +85,36 @@ public class GamePanel extends JPanel {
 
 		Graphics2D g2d = (Graphics2D) g;
 
-		updateFrame();
-		g2d.drawImage(frame, 0, 0, null);
+		updateImage();
+		g2d.drawImage(image, 0, 0, null);
 	}
 
-	public void updateGame(Conways game){
-		this.game = game;
-	}
-
-	public void updateFrame(){
+	public void updateImage(){
 		for (int row = 0; row < game.getRows(); row++){
 			for (int col = 0; col < game.getCols(); col++){
-				Color color = switch (game.getItem(row, col)){
-					case 0 -> Color.WHITE;
-					case 1 -> Color.BLACK;
-					default -> Color.GREEN;
+				int color = switch (game.getItem(row, col)){
+					case 0 -> {
+						if (col == game.getCols()/2 || col == game.getCols()/2-1){
+							if ((row + col) % 2 == 1){
+								yield 0xff_c0_c0_c0;
+							} else {
+								yield 0xff_c0_c0_c0;
+							}
+						}
+						if ((row + col) % 2 == 1){
+							yield 0xff_ff_ff_ff;
+						} else {
+							yield 0xff_c0_c0_c0;
+						}
+					}
+					case 1 -> 	{yield 0xff_00_00_ff;}	//blue
+					case 2 -> 	{yield 0xff_ff_00_00;}	//red
+					default -> 	{yield 0xff_00_ff_00;}	//green
 				};
-				for (int sx = 0; sx < scale; sx++){
-					for (int sy = 0; sy < scale; sy++){
-						frame.setRGB(col*scale+sx, row*scale+sy, color.getRGB());
+
+				for (int sx = col*scale; sx < (col+1)*scale; sx++){
+					for (int sy = row*scale; sy < (row+1)*scale; sy++){
+						image.setRGB(sx, sy, color);
 					}
 				}
 			}

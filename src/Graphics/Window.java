@@ -12,10 +12,11 @@ public class Window {
 
 	public boolean play = false;
 	public boolean next = false;
+	public boolean prev = false;
 	public boolean reset = false;
+	public boolean clear = false;
 
 	private final JButton[] buttons;
-	public final boolean[] listeners;
 
 	public Window(Conways game, int scale, int border, int barWidth){
 		int gameWidth  = game.getCols() * scale;
@@ -38,11 +39,13 @@ public class Window {
 		this.gamePanel.setBackground(Color.CYAN);
 		this.frame.add(gamePanel);
 
-		listeners = new boolean[3];
-		buttons = new JButton[3];
-		buttons[0] = new JButton("⟳");
-		buttons[1] = new JButton("⏯");
-		buttons[2] = new JButton("⏵");
+		
+		buttons = new JButton[5];
+		buttons[0] = new JButton("Play");
+		buttons[1] = new JButton("Next");
+		buttons[2] = new JButton("Prev");
+		buttons[3] = new JButton("Reset");
+		buttons[4] = new JButton("Clear");
 
 		int buttonHeight = gameHeight/buttons.length;
 
@@ -54,22 +57,34 @@ public class Window {
 		
 		buttons[0].addActionListener(
 			(ActionEvent e) -> {
-				this.reset = true;
+				this.play = true;
 			}
 		);
 		buttons[1].addActionListener(
 			(ActionEvent e) -> {
-				this.play = true;
+				System.out.println("my dih");
+				this.next = true;
 			}
 		);
 		buttons[2].addActionListener(
 			(ActionEvent e) -> {
-				this.next = true;
+				this.prev = true;
+			}
+		);
+		buttons[3].addActionListener(
+			(ActionEvent e) -> {
+				this.reset = true;
+			}
+		);
+		buttons[4].addActionListener(
+			(ActionEvent e) -> {
+				this.clear = true;
 			}
 		);
 	}
 
 	public void render(){
 		frame.repaint();
+		
 	}
 }

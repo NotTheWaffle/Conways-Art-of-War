@@ -51,7 +51,11 @@ public class Conways{
 		if (row < 0 || row >= rows || col < 0 || col >= cols || currentTick > 0){
 			return;
 		}
-		grid.setItem(row, col, (byte) val);
+		if (val == 0){
+			grid.setItem(row, col, (byte) 0);
+		} else {
+			grid.setItem(row, col, (byte) (1+(2*col)/cols));
+		}
 	}
 
 	public int getCurrentTick(){
@@ -80,7 +84,7 @@ public class Conways{
 						if (dRow == row && dCol == col){
 							continue;
 						}
-						byte val = grid.getItem(dRow, dCol);
+						byte val = grid.getItem(Math.floorMod(dRow, rows), Math.floorMod(dCol, cols));
 						if (val == 1){
 							p1Neighbors ++;
 						}
