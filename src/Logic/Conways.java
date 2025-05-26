@@ -12,9 +12,11 @@ public class Conways{
 	private final int cols;
 
 	private int currentTick;
+	private boolean drawing;
 
 
 	public Conways(int rows, int cols){
+		this.drawing = true;
 		this.keystones = new ArrayList<>();
 		this.hashcodes = new ArrayList<>();
 		this.rows = rows;
@@ -34,7 +36,7 @@ public class Conways{
 	}
 
 	public void updateItem(int row, int col){
-		if (row < 0 || row >= rows || col < 0 || col >= cols || currentTick > 0){
+		if (row < 0 || row >= rows || col < 0 || col >= cols || !drawing){
 			return;
 		}
 		if (grid.getItem(row, col) == 0){
@@ -48,7 +50,7 @@ public class Conways{
 		}
 	}
 	public void updateItem(int row, int col, int val){
-		if (row < 0 || row >= rows || col < 0 || col >= cols || currentTick > 0){
+		if (row < 0 || row >= rows || col < 0 || col >= cols || !drawing){
 			return;
 		}
 		if (val == 0){
@@ -70,6 +72,7 @@ public class Conways{
 
 	public void tick(){
 		if (currentTick == 0){
+			drawing = false;
 			updateHashcodes();
 			updateKeystones();
 		}
@@ -80,7 +83,7 @@ public class Conways{
 				byte p1Neighbors = 0;
 				byte p2Neighbors = 0;
 				for (int dRow = row-1; dRow <= row+1; dRow++){
-					for (int dCol = row-1; dCol <= col+1; dCol++){
+					for (int dCol = col-1; dCol <= col+1; dCol++){
 						if (dRow == row && dCol == col){
 							continue;
 						}
@@ -93,7 +96,7 @@ public class Conways{
 						}
 					}
 				}
-				bufferGrid.setItem(row, col, applyRules(p1Neighbors, p2Neighbors, bufferGrid.getItem(row, col)));
+				bufferGrid.setItem(row, col, applyRules(p1Neighbors, p2Neighbors, grid.getItem(row, col)));
 			}
 		}
 		grid = bufferGrid;
@@ -151,6 +154,7 @@ public class Conways{
 				int backupTick = currentTick;
 				loadTick(tick);
 				if (grid.equals(backup)){
+					System.out.println("Repeating " + backupTick +" -> " + currentTick);
 					return;
 				} else {
 					loadTick(backupTick);
@@ -194,11 +198,18 @@ public class Conways{
 
 	public void reset(){
 		loadTick(0);
+		drawing = true;
 	}
 	public void clear(){
 		this.keystones.clear();
 		this.hashcodes.clear();
 		this.grid = new byte2d(new byte[rows][cols]);
 		this.currentTick = 0;
+		drawing = true;
+	}
+
+	@Override
+	public String toString(){
+		return grid.toString();
 	}
 }

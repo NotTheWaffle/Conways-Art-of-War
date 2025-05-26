@@ -11,6 +11,7 @@ public class byte2d {
 	public byte getItem(int row, int col){
 		return grid[row][col];
 	}
+	
 	@Override
 	public int hashCode(){
 		int hash = 0;
@@ -21,6 +22,7 @@ public class byte2d {
 		}
 		return hash;
 	}
+
 	@Override
 	public boolean equals(Object o){
 		if (!(o instanceof byte2d)){
@@ -38,5 +40,22 @@ public class byte2d {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public String toString(){
+		String output = "";
+		for (byte[] row : grid) {
+			for (int col = 0; col < grid[0].length; col++) {
+				output += (switch (row[col]) {
+					case 0 -> ' ';
+					case 1 -> '#';
+					case 2 -> "*";
+					default -> '@';
+				});
+			}
+			output += "\n";
+		}
+		return output;
 	}
 }

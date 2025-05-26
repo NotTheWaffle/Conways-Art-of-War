@@ -32,6 +32,18 @@ public class Design {
 		}
 		return (name+" ("+id+") "+design.length+"x"+design[0].length+"\n"+designString);
 	}
+
+	@Override
+	public int hashCode(){
+		int hash = 0;
+		for (char[] design1 : design) {
+			for (int col = 0; col < design[0].length; col++) {
+				hash = hash * 31 + design1[col];
+			}
+		}
+		return hash;
+	}
+
 	@Override
 	public boolean equals(Object o){
 		if (! (o instanceof Design)){

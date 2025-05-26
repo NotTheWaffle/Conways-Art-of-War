@@ -62,7 +62,6 @@ public class Window {
 		);
 		buttons[1].addActionListener(
 			(ActionEvent e) -> {
-				System.out.println("my dih");
 				this.next = true;
 			}
 		);

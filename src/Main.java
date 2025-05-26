@@ -10,20 +10,19 @@ public class Main{
 			Designs.loadDesigns(new File(root+design+".dat"));
 		}
 
-		int size = 256;
+		int size = 32;
 		Conways game = new Conways(size, size);
 		int scale = 1024/size;
 		Window window = new Window(game, scale, 4, 70);
 		window.render();
 		boolean playing = false;
-
+		System.out.println(game);
 		while (true){
 			if (window.play){
 				playing = !playing;
 				window.play = false;
 			}
 			if (window.next){
-				System.out.println("my dih");
 				playing = false;
 				window.next = false;
 				game.tick();
@@ -32,14 +31,24 @@ public class Main{
 			if (window.prev){
 				playing = false;
 				window.prev = false;
-			}
-			if (window.clear){
-				playing = false;
-				window.clear = false;
+				game.loadTick(game.getCurrentTick()-1);
+				window.render();
 			}
 			if (window.reset){
 				playing = false;
 				window.reset = false;
+				game.reset();
+				window.render();
+			}
+			if (window.clear){
+				playing = false;
+				window.clear = false;
+				game.clear();
+				window.render();
+			}
+			if (playing){
+				game.tick();
+				window.render();
 			}
 			sleep(100);
 		}

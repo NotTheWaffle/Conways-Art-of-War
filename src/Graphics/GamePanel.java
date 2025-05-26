@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
 	private final BufferedImage image;
-	private Conways game;
+	private final Conways game;
 	private final int scale;
 	private final int width;
 	private final int height;
@@ -94,11 +94,11 @@ public class GamePanel extends JPanel {
 			for (int col = 0; col < game.getCols(); col++){
 				int color = switch (game.getItem(row, col)){
 					case 0 -> {
-						if (col == game.getCols()/2 || col == game.getCols()/2-1){
+						if (col == 0 || col == game.getCols()/2 || col == game.getCols()/2-1 || col == game.getCols()-1){
 							if ((row + col) % 2 == 1){
-								yield 0xff_c0_c0_c0;
+								yield 0xff_80_80_80;
 							} else {
-								yield 0xff_c0_c0_c0;
+								yield 0xff_60_60_60;
 							}
 						}
 						if ((row + col) % 2 == 1){
