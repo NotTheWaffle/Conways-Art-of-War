@@ -15,11 +15,13 @@ public class Main{
 		Overlay overlay = new Overlay(size, size);
 		overlay.setItem(0, 0, 2);
 		int scale = 1024/size;
+		Cursor cursor = new Cursor(0, 0, new Design(new int[1][1], "nothing", "aint"));
 		Window window = new Window(game, overlay, scale, 4, 70);
 		window.render();
 		boolean playing = false;
 		
 		while (true){
+			cursor.updateOverlay(overlay, window.getMouseX(), window.getMouseY(), Designs.getDesign("GLDR"));
 			if (window.play){
 				playing = !playing;
 				window.play = false;
@@ -28,30 +30,26 @@ public class Main{
 				playing = false;
 				window.next = false;
 				game.tick();
-				window.render();
 			}
 			if (window.prev){
 				playing = false;
 				window.prev = false;
 				game.loadTick(game.getCurrentTick()-1);
-				window.render();
 			}
 			if (window.reset){
 				playing = false;
 				window.reset = false;
 				game.reset();
-				window.render();
 			}
 			if (window.clear){
 				playing = false;
 				window.clear = false;
 				game.clear();
-				window.render();
 			}
 			if (playing){
 				game.tick();
-				window.render();
 			}
+			window.render();
 			sleep(16);
 		}
 

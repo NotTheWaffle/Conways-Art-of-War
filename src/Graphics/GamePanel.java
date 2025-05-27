@@ -15,6 +15,9 @@ public class GamePanel extends JPanel {
 	private final int width;
 	private final int height;
 
+	private int mouseX;
+	private int mouseY;
+
 	private int prevX;
 	private int prevY;
 	private byte brush;
@@ -52,6 +55,8 @@ public class GamePanel extends JPanel {
 			public void mouseDragged(MouseEvent e){
 				int x = e.getX()/scale;
 				int y = e.getY()/scale;
+				mouseX = x;
+				mouseY = y;
 				int bx = x;
 				int by = y;
 				int dx = Math.abs(prevX - x);
@@ -79,7 +84,12 @@ public class GamePanel extends JPanel {
 				window.render();
 			}
 			@Override
-			public void mouseMoved(MouseEvent e){}
+			public void mouseMoved(MouseEvent e){
+				int x = e.getX()/scale;
+				int y = e.getY()/scale;
+				mouseX = x;
+				mouseY = y;
+			}
 		});
 		this.addKeyListener(new KeyListener() {
 			@Override
@@ -117,6 +127,13 @@ public class GamePanel extends JPanel {
 
 		updateImage();
 		g2d.drawImage(image, 0, 0, null);
+	}
+
+	public int getMouseX(){
+		return mouseX;
+	}
+	public int getMouseY(){
+		return mouseY;
 	}
 
 	public void updateImage(){

@@ -27,7 +27,7 @@ public class Designs {
 					int rows = Integer.parseInt(metaData[1]);
 					int cols = Integer.parseInt(metaData[2]);
 					
-					char[][] design = new char[rows][cols];
+					int[][] design = new int[rows][cols];
 					for (int row = 0; row < rows; row++){
 						//i could do some .tochararray and some system.arraycopy to make this faster, but idgaf
 						String line = reader.readLine();
@@ -37,9 +37,14 @@ public class Designs {
 						}
 						for (int col = 0; col < cols; col++){
 							if (col >= line.length()){
-								design[row][col] = ' ';
+								design[row][col] = 0;
 							} else {
-								design[row][col] = line.charAt(col);
+								char item = line.charAt(col);
+								if (item == ' '){
+									design[row][col] = 0;
+								} else if (item == '#'){
+									design[row][col] = 1;
+								}
 							}
 						}
 					}

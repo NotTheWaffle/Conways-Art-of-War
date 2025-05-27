@@ -124,7 +124,9 @@ public class Conways{
 			return;
 		}
 
+		System.out.println(tick+" "+keystoneFreq);
 		grid = keystones.get(tick/keystoneFreq);
+
 		currentTick = tick/keystoneFreq;
 		while (tick > currentTick){
 			tick();

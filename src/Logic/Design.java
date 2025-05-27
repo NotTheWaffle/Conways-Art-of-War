@@ -1,19 +1,20 @@
 package Logic;
 
 public class Design {
-	private final char[][] design;
+	private final int[][] design;
 	private final String name;
 	private final String id;
 
-	public Design(char[][] design, String name, String id){
+	public Design(int[][] design, String name, String id){
 		this.design = design;
 		this.name = name;
 		this.id = id;
 	}
 	
-	public char[][] get(){
+	public int[][] get(){
 		return design;
 	}
+	
 	public String getId(){
 		return id;
 	}
@@ -21,11 +22,15 @@ public class Design {
 		return name;
 	}
 
+	public int getItem(int row, int col){
+		return design[row][col];
+	}
+
 	@Override
 	public String toString(){
 		String designString = "";
-		for (char[] row : design){
-			for (char item : row){
+		for (int[] row : design){
+			for (int item : row){
 				designString += item;
 			}
 			designString += "\n";
@@ -36,9 +41,9 @@ public class Design {
 	@Override
 	public int hashCode(){
 		int hash = 0;
-		for (char[] design1 : design) {
-			for (int col = 0; col < design[0].length; col++) {
-				hash = hash * 31 + design1[col];
+		for (int[] row : design) {
+			for (int col = 0; col < row.length; col++) {
+				hash = hash * 31 + row[col];
 			}
 		}
 		return hash;
@@ -54,7 +59,7 @@ public class Design {
 			return false;
 		}
 		//same name, id
-		char[][] altDesign = d.get();
+		int[][] altDesign = d.get();
 		if (altDesign.length != design.length || altDesign[0].length != design[0].length){
 			return false;
 		}

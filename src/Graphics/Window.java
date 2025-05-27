@@ -83,6 +83,13 @@ public class Window {
 		gamePanel.requestFocusInWindow();
 	}
 
+	public int getMouseX(){
+		return gamePanel.getMouseX();
+	}
+	public int getMouseY(){
+		return gamePanel.getMouseY();
+	}
+
 	public void render(){
 		frame.repaint();
 		
