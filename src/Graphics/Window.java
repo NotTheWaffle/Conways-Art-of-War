@@ -16,9 +16,22 @@ public class Window {
 	public boolean reset = false;
 	public boolean clear = false;
 
+	public boolean flipX = false;
+	public boolean flipY = false;
+	public boolean cwRot = false;
+	public boolean ccwRot = false;
+	public boolean toggleStamp = false;
+
+	public boolean nextDesi = false;
+	public boolean prevDesi = false;
+	public boolean nextFile = false;
+	public boolean prevFile = false;
+
+	public boolean stamp = false;
+
 	private final JButton[] buttons;
 
-	public Window(Conways game, Overlay overlay, int scale, int border, int barWidth){
+	public Window(Conways game, Overlay overlay, int scale, int border, int barWidth, Cursor cursor){
 		int gameWidth  = game.getCols() * scale;
 		int gameHeight = game.getRows() * scale;
 
@@ -34,7 +47,7 @@ public class Window {
 		this.frame.setResizable(false);
 		
 
-		this.gamePanel = new GamePanel(game, overlay, scale, this);
+		this.gamePanel = new GamePanel(game, overlay, scale, this, cursor);
 		this.gamePanel.setBounds(border, border, gameWidth, gameHeight);
 		this.gamePanel.setBackground(Color.CYAN);
 		this.frame.add(gamePanel);
@@ -58,26 +71,31 @@ public class Window {
 		buttons[0].addActionListener(
 			(ActionEvent e) -> {
 				this.play = true;
+				gamePanel.requestFocusInWindow();
 			}
 		);
 		buttons[1].addActionListener(
 			(ActionEvent e) -> {
 				this.next = true;
+				gamePanel.requestFocusInWindow();
 			}
 		);
 		buttons[2].addActionListener(
 			(ActionEvent e) -> {
 				this.prev = true;
+				gamePanel.requestFocusInWindow();
 			}
 		);
 		buttons[3].addActionListener(
 			(ActionEvent e) -> {
 				this.reset = true;
+				gamePanel.requestFocusInWindow();
 			}
 		);
 		buttons[4].addActionListener(
 			(ActionEvent e) -> {
 				this.clear = true;
+				gamePanel.requestFocusInWindow();
 			}
 		);
 		gamePanel.requestFocusInWindow();

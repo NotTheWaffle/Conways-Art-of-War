@@ -25,6 +25,9 @@ public class Design {
 	public int getItem(int row, int col){
 		return design[row][col];
 	}
+	public void setItem(int row, int col, int val){
+		design[row][col] = val;
+	}
 
 	@Override
 	public String toString(){

@@ -1,7 +1,7 @@
 package Logic;
 
 public class Overlay {
-	private byte2d grid;
+	private final byte2d grid;
 	private final int rows;
 	private final int cols;
 
@@ -19,6 +19,16 @@ public class Overlay {
 	}
 	public void setItem(int row, int col, int val){
 		grid.setItem(row, col, (byte)val);
+	}
+	public void updateItem(int row, int col, int val){
+		if (row < 0 || row >= rows || col < 0 || col >= cols){
+			return;
+		}
+		if (val == 0){
+			grid.setItem(row, col, (byte) 0);
+		} else {
+			grid.setItem(row, col, (byte) (1+(2*col)/cols));
+		}
 	}
 
 	public int getRows(){

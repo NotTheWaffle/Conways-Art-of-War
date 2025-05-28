@@ -13,15 +13,62 @@ public class Main{
 		int size = 32;
 		Conways game = new Conways(size, size);
 		Overlay overlay = new Overlay(size, size);
-		overlay.setItem(0, 0, 2);
 		int scale = 1024/size;
-		Cursor cursor = new Cursor(0, 0, new Design(new int[1][1], "nothing", "aint"));
-		Window window = new Window(game, overlay, scale, 4, 70);
+		Cursor cursor = new Cursor(overlay, 0, 0, Designs.getDesign("LWSS"));
+		Window window = new Window(game, overlay, scale, 4, 70, cursor);
 		window.render();
 		boolean playing = false;
+		boolean stampMode = false;
 		
 		while (true){
-			cursor.updateOverlay(overlay, window.getMouseX(), window.getMouseY(), Designs.getDesign("GLDR"));
+			if (window.toggleStamp){
+				stampMode = !stampMode;
+				window.stamp = stampMode;
+				if (!stampMode){
+					cursor.erase();
+				}
+				window.toggleStamp = false;
+			}
+			if (stampMode){
+				if (window.flipX){
+					cursor.flipHDesign();
+					window.flipX = false;
+				}
+				if (window.flipY){
+					cursor.flipVDesign();
+					window.flipY = false;
+				}
+				if (window.ccwRot){
+					cursor.ccwDesign();
+					window.ccwRot = false;
+				}
+				if (window.cwRot){
+					cursor.cwDesign();
+					window.cwRot = false;
+				}
+				if (window.prevDesi){
+					Designs.prevDesign();
+					cursor.newDesign(Designs.getDesignNum());
+					window.prevDesi = false;
+				}
+				if (window.nextDesi){
+					Designs.nextDesign();
+					cursor.newDesign(Designs.getDesignNum());
+					window.nextDesi = false;
+				}
+				if (window.prevFile){
+					Designs.prevFile();
+					cursor.newDesign(Designs.getDesignNum());
+					window.prevFile = false;
+				}
+				if (window.nextFile){
+					Designs.nextFile();
+					cursor.newDesign(Designs.getDesignNum());
+					window.nextFile = false;
+				}
+				cursor.erase();
+				cursor.draw(window.getMouseX(), window.getMouseY());
+			}
 			if (window.play){
 				playing = !playing;
 				window.play = false;

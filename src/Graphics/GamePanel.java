@@ -22,7 +22,7 @@ public class GamePanel extends JPanel {
 	private int prevY;
 	private byte brush;
 
-	public GamePanel(Conways game, Overlay overlay, int scale, Window window){
+	public GamePanel(Conways game, Overlay overlay, int scale, Window window, Cursor cursor){
 		this.game  = game;
 		this.overlay = overlay;
 		this.scale = scale;
@@ -37,17 +37,21 @@ public class GamePanel extends JPanel {
 			public void mousePressed(MouseEvent e){
 				int x = e.getX()/scale;
 				int y = e.getY()/scale;
-				if (game.getItem(y, x) == 0){
-					brush = (byte) 1;
+				if (window.stamp){
+					cursor.drawTo(game, x, y);
 				} else {
-					brush = (byte) 0;
-				}
-				
-				game.updateItem(y, x, brush);
-				window.render();
+					if (game.getItem(y, x) == 0){
+						brush = (byte) 1;
+					} else {
+						brush = (byte) 0;
+					}
+					
+					game.updateItem(y, x, brush);
+					window.render();
 
-				prevX = x;
-				prevY = y;
+					prevX = x;
+					prevY = y;
+				}
 			}
 		});
 		this.addMouseMotionListener(new MouseMotionListener() {
@@ -94,7 +98,20 @@ public class GamePanel extends JPanel {
 		this.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e){
-				System.out.print(e.getKeyCode()+" ");
+				switch (e.getKeyCode()){
+					case 81 -> window.ccwRot = true;
+					case 87 -> window.flipY = true;
+					case 69 -> window.cwRot = true;
+					case 65 -> window.flipX = true;
+					case 83 -> window.flipY = true;
+					case 68 -> window.flipX = true;
+					case 32 -> window.toggleStamp = true;
+					case 37 -> window.prevDesi = true;
+					case 39 -> window.nextDesi = true;
+					case 38 -> window.nextFile = true;
+					case 40 -> window.prevFile = true;
+				}
+				//System.out.print(e.getKeyCode()+" ");
 				// 81 87 69
 				// 65 83 68
 				//  q  w  e

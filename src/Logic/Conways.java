@@ -105,7 +105,7 @@ public class Conways{
 		updateHashcodes();
 		updateKeystones();
 
-		testHashcodes();
+		//testHashcodes();
 	}
 	public void tick(int amount){
 		for (int i = 0; i < amount; i++){
@@ -124,8 +124,9 @@ public class Conways{
 			return;
 		}
 
-		System.out.println(tick+" "+keystoneFreq);
-		grid = keystones.get(tick/keystoneFreq);
+		if (!keystones.isEmpty()){	//if we click reset on 0
+			grid = keystones.get(tick/keystoneFreq);
+		}
 
 		currentTick = tick/keystoneFreq;
 		while (tick > currentTick){

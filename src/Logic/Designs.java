@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 public class Designs {
 	private final static ArrayList<ArrayList<Design>> designs = new ArrayList<>();
+	private static int fileNum;
+	private static int designNum;
+
 
 	public static void loadFile(File file){
 		try {
@@ -69,6 +72,25 @@ public class Designs {
 			}
 		}
 		return null;
+	}
+
+	public static Design getDesignNum(){
+		return designs.get(fileNum).get(designNum);
+	}
+
+	public static void nextDesign(){
+		designNum = Math.floorMod(designNum+1, designs.get(fileNum).size());
+	}
+	public static void prevDesign(){
+		designNum = Math.floorMod(designNum-1, designs.get(fileNum).size());
+	}
+	public static void nextFile(){
+		designNum = 0;
+		fileNum = Math.floorMod(fileNum+1, designs.size());
+	}
+	public static void prevFile(){
+		designNum = 0;
+		fileNum = Math.floorMod(fileNum-1, designs.size());
 	}
 
 	@Deprecated
